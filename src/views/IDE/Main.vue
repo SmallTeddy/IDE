@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import CodeEditter from '../Components/CodeEditter.vue'
+
 const fileTreeData = ref()
 const fileTreeProps = {
   children: 'children',
   label: 'name',
 }
+const code = ref(`console.log('Hello, world!')`)
 
 const processHandle = async (handle) => {
   if (handle.kind == 'file') {
@@ -27,8 +30,14 @@ const selectDirectory = async () => {
   }
 }
 
-const handleNodeClick = (item) => {
-  console.log(item)
+const handleNodeClick = async (item) => {
+  if(item.kind == 'directory') return
+  const file = await item.getFile()
+  const reader = new FileReader()
+  reader.readAsText(file)
+  reader.onload = () => {
+    code.value = reader.result
+  }
 }
 </script>
 
@@ -40,7 +49,9 @@ const handleNodeClick = (item) => {
         <el-tree v-if="fileTreeData" style="max-width: 200" :data="fileTreeData.children" :props="fileTreeProps"
           @node-click="handleNodeClick" />
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main>
+        <CodeEditter :code="code" />
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -52,6 +63,10 @@ const handleNodeClick = (item) => {
   background: #222;
   border-radius: 0;
   border: 1px dashed #ccc;
+}
+
+::v-deep(.el-main) {
+  padding: 0;
 }
 
 ::v-deep(.el-tree) {
