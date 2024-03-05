@@ -40,7 +40,7 @@
     "@types/node": "^20.11.20",
     "@unocss/reset": "^0.58.5",
     "@vueuse/core": "^10.8.0",
-    "element-plus": "^2.3.5",
+    "element-plus": "^2.6.0",
     "sass": "^1.62.1",
     "sass-loader": "^13.3.0",
     "unocss": "^0.58.5",
