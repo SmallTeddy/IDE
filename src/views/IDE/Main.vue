@@ -36,7 +36,7 @@ const handleNodeClick = async (item) => {
   const reader = new FileReader()
   reader.readAsText(file)
   reader.onload = () => {
-    code.value = reader.result
+    code.value = reader.result as any
   }
 }
 </script>
